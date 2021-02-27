@@ -6,7 +6,7 @@ def roll(num_dice):
 
   rolls = []
   for roll in range(num_dice):
-    rolls.append(random.randint(0, 6))
+    rolls.append(random.randint(1, 6))
     
   return rolls
 
