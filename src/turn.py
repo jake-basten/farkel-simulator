@@ -7,29 +7,28 @@ class Turn:
   def __init__(self):
     self.dice = dice.roll(6)
 
+
   def take_turn(self):
-    moves = self.ones()
-    print(moves)
-
-  def ones(self):
     print("dice", self.dice)
+    moves = self.score_for_number_of_dice(5, 50)
+    print("moves", moves)
 
-    ones = []
+
+  def score_for_number_of_dice(self, number, score_value):
+    indecies_with_number = []
     for i, die in enumerate(self.dice):
-      if die == 1:
-        ones.append(i)
+      if die == number:
+        indecies_with_number.append(i)
     
-    if not ones:
+    if not indecies_with_number:
       return []
-
-    print("ones", ones)
 
     score = 0
     moves = []
     remaining_dice = self.dice
-    for one in ones:
-      remaining_dice[one] = self.REMOVED_DIE
-      score += 100
+    for idx in indecies_with_number:
+      remaining_dice[idx] = self.REMOVED_DIE
+      score += score_value
       moves.append(self.build_move(remaining_dice, score))
     return moves
 
