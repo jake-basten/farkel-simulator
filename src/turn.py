@@ -9,6 +9,16 @@ def has_straight(roll_from_dice):
     return True
 
 
+def has_three_pair(pairs_dict):
+    dict_values = list(pairs_dict.values())
+    if len(dict_values) != 3:
+        return False
+    for value in dict_values:
+        if value != 2:
+            return False
+    return True
+
+
 class Turn:
     REMOVED_DIE = -1
     THREE_OF_A_KIND_SCORES = {
@@ -21,12 +31,12 @@ class Turn:
     }
     
     def __init__(self):
-        self.dice = [1, 3, 4, 6, 5, 2]
+        self.dice = [1, 4, 6, 6, 1, 4]
         self.score_for_turn = 0
     
     def take_turn(self):
         print("dice", self.dice)
-        moves = self.score_straight()
+        moves = self.score_three_pair()
         print("moves", moves)
     
     def score_ones(self):
@@ -75,7 +85,21 @@ class Turn:
                 "remaining": []
             }]
         return []
-
+    
+    def score_three_pair(self):
+        pairs_dict = {}
+        for die in self.dice:
+            if die in pairs_dict:
+                pairs_dict[die] = pairs_dict[die] + 1
+            else:
+                pairs_dict[die] = 1
+        if has_three_pair(pairs_dict):
+            return [{
+                "score": 1500,
+                "remaining": []
+            }]
+        return []
+    
     def remove_first_three(self, num):
         count = 0
         remaining_dice = self.dice
